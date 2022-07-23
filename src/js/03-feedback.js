@@ -1,1 +1,47 @@
+import throttle from "lodash.throttle";
+
+const form = document.querySelector("form")
+const email = form.elements.email;
+const message = form.elements.message;
+const submitButton = document.querySelector('button');
+
+form.addEventListener("input", throttle(enteredData, 500));
+
+function enteredData() {
+    const data = {
+        email: email.value,
+        message: message.value
+    }
+
+    localStorage.setItem("fedback-from-state", JSON.stringify(data))
+
+}
+
+function onFieldCheck() {
+    const localSavedData = localStorage.getItem("fedback-from-state")
+    const parsedData = JSON.parse(localSavedData)
+
+    email.value = parsedData?.email || "";
+    message.value = parsedData?.message || "";
+}
+
+onFieldCheck()
+
+submitButton.addEventListener("click", onFormSubmit);
+
+function onFormSubmit(evt) {
+    evt.preventDefault();
+
+    const savedData = {
+        email: email.value,
+        message: message.value
+    }
+    console.log(savedData)
+
+    localStorage.clear()
+
+    form.reset()
+}
+
+
 

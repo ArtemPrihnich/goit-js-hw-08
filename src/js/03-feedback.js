@@ -2,6 +2,7 @@ import throttle from "lodash.throttle";
 
 const form = document.querySelector("form")
 const email = form.elements.email;
+console.log(email)
 const message = form.elements.message;
 const submitButton = document.querySelector('button');
 
@@ -9,8 +10,8 @@ form.addEventListener("input", throttle(enteredData, 500));
 
 function enteredData() {
     const data = {
-        email: email.value,
-        message: message.value
+        [email.name]: email.value,
+        [message.name]: message.value
     }
 
     localStorage.setItem("fedback-from-state", JSON.stringify(data))
@@ -32,15 +33,19 @@ submitButton.addEventListener("click", onFormSubmit);
 function onFormSubmit(evt) {
     evt.preventDefault();
 
-    const savedData = {
-        email: email.value,
-        message: message.value
+    if (email.value !== "" || message.value !== "") {
+        const savedData = {
+        [email.name]: email.value,
+        [message.name]: message.value
     }
     console.log(savedData)
 
     localStorage.clear()
 
     form.reset()
+    } else {
+        console.log(`Please fill in the fields "${email.name}" and "${message.name}"`)
+    }
 }
 
 

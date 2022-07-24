@@ -2,7 +2,6 @@ import throttle from "lodash.throttle";
 
 const form = document.querySelector("form")
 const email = form.elements.email;
-console.log(email)
 const message = form.elements.message;
 const submitButton = document.querySelector('button');
 
